@@ -1,3 +1,5 @@
 module.exports = {
-   userControllers: require('./userControllers')
+   adminController: require('./adminController'),
+   regionController: require('./regionController'),
+   categoryController: require('./categoryController'),
 }

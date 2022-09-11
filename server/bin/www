@@ -8,6 +8,8 @@ const app = require('../app');
 const debug = require('debug')('server:server');
 const http = require('http');
 const dotenv = require('dotenv')
+const mongoose = require('mongoose')
+const seedAdmin = require('../src/seed/seedAdmin')
 dotenv.config()
 
 /**
@@ -27,9 +29,16 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+mongoose.connect(process.env.MONGODB_URL).then(() => {
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+  console.log(`MongoDB connected to ${mongoose.connection.host}`)
+  seedAdmin.createAdmin()
+}).catch(err => {
+  console.log(err)
+  process.exit(1)
+}) 
 
 /**
  * Normalize a port into a number, string, or false.
