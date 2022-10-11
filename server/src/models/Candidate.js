@@ -11,6 +11,10 @@ const candidateSchema = new Schema({
       required: true,
       unique: true
    },
+   password: {
+      type: String,
+      required: true
+   },
    about: {
       type: String
    },

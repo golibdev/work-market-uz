@@ -11,6 +11,10 @@ const employerSchema = new Schema({
       required: true,
       unique: true
    },
+   password: {
+      type: String,
+      required: true
+   },
    jobs: [{
       type: Schema.Types.ObjectId,
       ref: 'Job'
