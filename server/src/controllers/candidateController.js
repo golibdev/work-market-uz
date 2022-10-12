@@ -1,4 +1,4 @@
-const { Candidate } = require('../models')
+const { Candidate, Employer } = require('../models')
 const CryptoJS = require('crypto-js')
 const jwt = require('jsonwebtoken')
 const { isValidObjectId } = require('mongoose')
