@@ -21,9 +21,6 @@ const candidateSchema = new Schema({
    speciality: {
       type: String
    },
-   image: {
-      type: String
-   },
    regionId: {
       type: Schema.Types.ObjectId,
       ref: 'Region'

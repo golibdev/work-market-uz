@@ -1,3 +1,4 @@
 module.exports = {
-   verifyAdmin: require('./adminTokenHandler')
+   verifyAdmin: require('./adminTokenHandler'),
+   verifyCandidate: require('./candidateTokenHandler')
 }
