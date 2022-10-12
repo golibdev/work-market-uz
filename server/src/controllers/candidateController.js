@@ -99,3 +99,23 @@ exports.getAll = async (req, res) => {
       res.status(501).json({ message: err.message })
    }
 }
+
+exports.getOne = async (req, res) => {
+   try {
+      const id = req.params.id
+
+      if(!isValidObjectId(id)) {
+         return res.status(401).json({ message: 'error_id' })
+      }
+
+      const candidate = await Candidate.findById().populate('resumes');
+
+      if(!candidate) {
+         return res.status(404).json({ message: 'candidate_not_found' });
+      }
+
+
+   } catch (err) {
+      res.status(501).json({ message: err.message })
+   }
+}
