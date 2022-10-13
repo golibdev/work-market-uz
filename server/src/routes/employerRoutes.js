@@ -8,6 +8,6 @@ router.post('/login', employerController.login);
 router.post('/create-job', verifyEmployer.verifyEmployerToken, employerController.createNewJob);
 router.get('/', verifyAdmin.verifyAdminToken, employerController.getAll);
 router.get('/:id', verifyAdmin.verifyAdminToken, employerController.getOne);
-router.put('/update-password', verifyEmployer.verifyEmployerToken, employerController.updatePassword)
+router.put('/update-password', verifyEmployer.verifyEmployerToken, employerController.updatePassword);
 
 module.exports = router
