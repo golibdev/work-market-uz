@@ -3,5 +3,6 @@ module.exports = {
    regionController: require('./regionController'),
    categoryController: require('./categoryController'),
    languageController: require('./languageController'),
-   candidateController: require('./candidateController')
+   candidateController: require('./candidateController'),
+   employerController: require('./employerController') 
 }

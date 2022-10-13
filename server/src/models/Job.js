@@ -6,6 +6,10 @@ const jobSchema = new Schema({
       type: String,
       required: true,
    },
+   slugifyUrl: {
+       type: String,
+       required: true
+   },
    description: {
       type: String,
       required: true
@@ -31,10 +35,6 @@ const jobSchema = new Schema({
    employers: [{
       type: Schema.Types.ObjectId,
       ref: 'Employer'
-   }],
-   candidates: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Candidate'
    }]
 }, schemaOptions)
 
