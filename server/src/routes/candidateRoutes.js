@@ -4,8 +4,8 @@ const { verifyAdmin, verifyCandidate} = require('../middlewares/');
 
 router.post('/register', candidateController.register);
 router.post('/login', candidateController.login);
-router.get('/', verifyAdmin.verifyAdminToken, candidateController.getAll);
-router.get('/:id', verifyAdmin.verifyAdminToken, candidateController.getOne);
+router.get('/', candidateController.getAll);
+router.get('/:id', candidateController.getOne);
 router.put('/info-update/:id', verifyCandidate.verifyCandidateToken, candidateController.update);
 router.put('/password-update/:id', verifyCandidate.verifyCandidateToken, candidateController.updatePassword)
 router.delete('/:id', verifyAdmin.verifyAdminToken, candidateController.delete);

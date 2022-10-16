@@ -12,7 +12,7 @@ exports.login = async (req, res) => {
       const admin = await Admin.findOne({ username })
 
       if(!admin) {
-         return res.status(401).json({ message: 'username_or_password_error' })
+         return res.status(400).json({ message: 'username_or_password_error' })
       }
 
       const decryptedPass = CryptoJS.AES.decrypt(
@@ -21,7 +21,7 @@ exports.login = async (req, res) => {
       ).toString(CryptoJS.enc.Utf8)
 
       if(password !== decryptedPass) {
-         return res.status(401).json({ message: 'username_or_password_error' })
+         return res.status(400).json({ message: 'username_or_password_error' })
       }
 
       const token = jwt.sign({

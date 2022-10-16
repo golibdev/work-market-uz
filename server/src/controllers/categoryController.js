@@ -47,9 +47,8 @@ exports.create = async (req, res) => {
          return res.status(404).json({ message: 'category_not_found' })
       }
 
-      const newCategory = new Category({ title })
-      
-      newCategory.save()
+      const newCategory = new Category({ title });
+      await newCategory.save();
 
       res.status(201).json({ category: newCategory })
    } catch (err) {

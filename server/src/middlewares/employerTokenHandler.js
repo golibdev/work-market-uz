@@ -7,7 +7,7 @@ exports.verifyEmployerToken = async (req, res, next) => {
         if(tokenDecoded) {
             const employer = await Employer.findById(tokenDecoded.id);
             if(!employer) return res.status(401).json({ message: 'No allowed' });
-            req.candidate = employer;
+            req.employer = employer;
             next();
         } else {
             return res.status(401).json({ message: 'Unauthorized' });

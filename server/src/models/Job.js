@@ -31,11 +31,7 @@ const jobSchema = new Schema({
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'Category'
-   },
-   employers: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Employer'
-   }]
+   }
 }, schemaOptions)
 
 module.exports = model('Job', jobSchema)

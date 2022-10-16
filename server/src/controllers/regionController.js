@@ -47,7 +47,7 @@ exports.create = async (req, res) => {
 
       const newRegion = new Region({ title })
       
-      newRegion.save()
+      await newRegion.save()
 
       res.status(201).json({ region: newRegion })
    } catch (err) {

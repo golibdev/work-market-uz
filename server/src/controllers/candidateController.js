@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
          || await Employer.findOne({ phone })
 
       if(phoneNumberExist) {
-         return res.status(401).json({ message: 'phone_number_exists' })
+         return res.status(400).json({ message: 'phone_number_exists' })
       }
 
       const encryptedPassword = CryptoJS.AES.encrypt(
@@ -56,7 +56,7 @@ exports.login = async (req, res) => {
       ).toString(CryptoJS.enc.Utf8)
 
       if(password !== decryptedPass) {
-         return res.status(401).json({ message: 'phone_or_password_error' })
+         return res.status(400).json({ message: 'phone_or_password_error' })
       }
 
       const token = jwt.sign({
@@ -105,7 +105,7 @@ exports.getOne = async (req, res) => {
       const id = req.params.id
 
       if(!isValidObjectId(id)) {
-         return res.status(401).json({ message: 'error_id' })
+         return res.status(400).json({ message: 'error_id' })
       }
 
       const candidate = await Candidate.findById(id).populate('resumes');
@@ -125,7 +125,7 @@ exports.update = async (req, res) => {
       const id = req.params.id;
 
       if(!isValidObjectId(id)) {
-         return res.status(401).json({ message: 'error_id' });
+         return res.status(400).json({ message: 'error_id' });
       }
 
       const candidate = await Candidate.findById(id);
@@ -152,7 +152,7 @@ exports.updatePassword = async (req, res) => {
       const id = req.params.id;
 
       if(!isValidObjectId(id)) {
-         return res.status(401).json({ message: 'error_id' })
+         return res.status(400).json({ message: 'error_id' })
       }
       
       const candidate = await Candidate.findById(id);
@@ -179,7 +179,7 @@ exports.delete = async (req, res) => {
       const id = req.params.id;
 
       if(!isValidObjectId(id)) {
-         return res.status(401).json({ message: 'error_id' });
+         return res.status(400).json({ message: 'error_id' });
       }
 
       const candidate = await Candidate.findById(id);

@@ -40,7 +40,7 @@ exports.create = async (req, res) => {
          return res.status(401).json({ message: 'language_exists' })
       }
 
-      const newLanguage = await Language.create({
+      const newLanguage = new Language({
          title
       })
 
@@ -56,10 +56,10 @@ exports.update = async (req, res) => {
    try {
       const id = req.params.id
 
-      const languageExists = await Language.findOne({ title: req.body.title })
+      const languageExists = await Language.findById(id)
 
       if(languageExists) {
-         return res.status(401).json({ message: 'language_exists' })
+         return res.status(400).json({ message: 'language_exists' })
       }
 
       await Language.findByIdAndUpdate(id, { title: req.body.title }, { new: true })
@@ -77,7 +77,7 @@ exports.delete = async (req, res) => {
       const languageExists = await Language.findById(id)
 
       if(!languageExists) {
-         return res.status(401).json({ message: 'language_exists' })
+         return res.status(400).json({ message: 'language_exists' })
       }
 
       await Language.findByIdAndRemove(id);
