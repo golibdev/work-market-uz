@@ -7,15 +7,15 @@ exports.register = async (req, res) => {
     try {
         const {
             fullName,
-            phone,
+            email,
             password
         } = req.body
 
-        const phoneNumberExist = await Employer.findOne({ phone })
-        || await Candidate.findOne({ phone });
+        const emailExist = await Employer.findOne({ email })
+        || await Candidate.findOne({ email });
 
-        if(phoneNumberExist) {
-            return res.status(400).json({ message: 'phone_number_exists' })
+        if(emailExist) {
+            return res.status(400).json({ message: 'email_exists' })
         }
 
         const encryptedPassword = CryptoJs.AES.encrypt(
@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
 
         const newEmployer = new Employer({
             fullName,
-            phone,
+            email,
             password: encryptedPassword
         })
 
@@ -40,14 +40,14 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const {
-            phone,
+            email,
             password
         } = req.body
 
-        const employer = await Employer.findOne({ phone });
+        const employer = await Employer.findOne({ email });
 
         if(!employer) {
-            return res.status(404).json({ message: 'phone_or_password_error' })
+            return res.status(404).json({ message: 'email_or_password_error' })
         }
 
         const decryptedPass = CryptoJs.AES.decrypt(
@@ -56,7 +56,7 @@ exports.login = async (req, res) => {
                 ).toString(CryptoJs.enc.Utf8)
 
         if(password !== decryptedPass) {
-            return res.status(400).json({ message: 'phone_or_password_error' })
+            return res.status(400).json({ message: 'email_or_password_error' })
         }
 
         const token = jwt.sign({

@@ -5,6 +5,8 @@ const logger = require('morgan');
 const cors = require('cors')
 const expressFileUpload = require('express-fileupload')
 const indexRouter = require('./src/routes/index');
+//const nodemailer = require('nodemailer');
+require('dotenv').config()
 
 const app = express();
 app.use(cors())

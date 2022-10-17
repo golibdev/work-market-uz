@@ -2,20 +2,22 @@ const { Candidate, Employer } = require('../models')
 const CryptoJS = require('crypto-js')
 const jwt = require('jsonwebtoken')
 const { isValidObjectId } = require('mongoose')
+const { generateRandomNumber } = require('../handlers/generateRandomNumber')
+const  nodemailer = require("nodemailer");
 
 exports.register = async (req, res) => {
    try {
       const {
          fullName,
-         phone,
+         email,
          password
       } = req.body
 
-      const phoneNumberExist = await Candidate.findOne({ phone })
-         || await Employer.findOne({ phone })
+      const emailExist = await Candidate.findOne({ email })
+         || await Employer.findOne({ email })
 
-      if(phoneNumberExist) {
-         return res.status(400).json({ message: 'phone_number_exists' })
+       if(emailExist) {
+         return res.status(400).json({ message: 'email_exists' })
       }
 
       const encryptedPassword = CryptoJS.AES.encrypt(
@@ -25,7 +27,7 @@ exports.register = async (req, res) => {
 
       const newCandidate = new Candidate({
          fullName,
-         phone,
+         email,
          password: encryptedPassword
       })
 
@@ -40,14 +42,14 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
    try {
       const {
-         phone,
+         email,
          password
       } = req.body
 
-      const candidate = await Candidate.findOne({ phone });
+      const candidate = await Candidate.findOne({ email });
 
       if(!candidate) {
-         return res.status(404).json({ message: 'phone_or_password_error' })
+         return res.status(404).json({ message: 'email_or_password_error' })
       }
 
       const decryptedPass = CryptoJS.AES.decrypt(
@@ -56,7 +58,7 @@ exports.login = async (req, res) => {
       ).toString(CryptoJS.enc.Utf8)
 
       if(password !== decryptedPass) {
-         return res.status(400).json({ message: 'phone_or_password_error' })
+         return res.status(400).json({ message: 'email_or_password_error' })
       }
 
       const token = jwt.sign({

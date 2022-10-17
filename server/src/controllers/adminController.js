@@ -1,6 +1,7 @@
 const CryptoJS = require('crypto-js')
 const { Admin } = require('../models')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { isValidObjectId } = require('mongoose')
 
 exports.login = async (req, res) => {
    try {
@@ -34,4 +35,43 @@ exports.login = async (req, res) => {
    } catch (err) {
       res.status(501).json({ message: err.message })
    }
+}
+
+exports.update = async (req, res) => {
+    try {
+        const id = req.params.id
+
+        if(!isValidObjectId(id)) {
+            return res.status(400).json({ message: 'error_id' })
+        }
+
+        const admin = await Admin.findById(id);
+
+        if(!admin) {
+            return res.status(404).json({ message: 'admin_not_found' })
+        }
+
+        if(req.body.password) {
+            const encryptedPassword = CryptoJs.AES.encrypt(
+                    req.body.password,
+                    process.env.PASSWORD_SECRET_KEY
+            ).toString()
+
+            await Admin.findByIdAndUpdate(id, { password: encryptedPassword });
+        }
+
+        if(req.body.username) {
+            const adminExist = await Admin.findOne({ username: req.body.username });
+
+            if(adminExist) {
+                return res.status(400).json({ message: 'username_allready_registered' })
+            }
+
+            await Admin.findByIdAndUpdate(id, { username: req.body.password })
+        }
+
+        res.status(200).json({ message: 'success_updated' })
+    } catch(err) {
+        res.status(501).json({ message: err.message })
+    }
 }
